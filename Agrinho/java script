@@ -1,0 +1,625 @@
+alert("Bem-vindo ao Agro Forte!");
+/**
+ * AGRO FORTE, FUTURO SUSTENTÁVEL — script.js
+ * Vanilla JS — sem dependências externas
+ */
+
+/* ============================================================
+   1. ESTADO GLOBAL
+   ============================================================ */
+const State = {
+  fontScale: 1,
+  theme: 'light',       // 'light' | 'dark' | 'contrast'
+  speech: null,         // SpeechSynthesisUtterance
+  quizIndex: 0,
+  quizScore: 0,
+  quizAnswered: false,
+  impactStartTime: null,
+  impactInterval: null,
+  countersStarted: false,
+};
+
+/* ============================================================
+   2. DADOS DO QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    question: "Qual prática reduz a erosão do solo e preserva sua umidade natural?",
+    options: ["Arado intensivo antes do plantio", "Plantio direto sobre cobertura vegetal", "Remoção de toda a vegetação nativa", "Uso excessivo de calcário"],
+    correct: 1,
+    feedback: {
+      correct: "✅ Correto! O plantio direto mantém a cobertura vegetal no solo, reduzindo a erosão em até 72% e preservando a umidade.",
+      incorrect: "❌ Incorreto. O plantio direto é a prática correta, pois mantém palha e resíduos vegetais protegendo o solo."
+    }
+  },
+  {
+    question: "O sistema de irrigação mais eficiente para economizar água na agricultura é:",
+    options: ["Aspersão convencional", "Inundação por sulcos", "Gotejamento com sensores de umidade", "Pivot central sem controle"],
+    correct: 2,
+    feedback: {
+      correct: "✅ Exato! O gotejamento com sensores aplica água apenas na quantidade necessária, economizando até 85% em relação à aspersão.",
+      incorrect: "❌ A resposta correta é gotejamento com sensores. Esse sistema aplica água diretamente na raiz, minimizando desperdício."
+    }
+  },
+  {
+    question: "Qual porcentagem da água doce mundial é utilizada pela agricultura?",
+    options: ["30%", "50%", "70%", "90%"],
+    correct: 2,
+    feedback: {
+      correct: "✅ Correto! Cerca de 70% da água doce consumida no mundo vai para irrigação e atividades agrícolas.",
+      incorrect: "❌ A resposta é 70%. A agricultura é a maior consumidora de água doce no planeta, o que torna a eficiência hídrica essencial."
+    }
+  },
+  {
+    question: "O que é Integração Lavoura-Pecuária-Floresta (iLPF)?",
+    options: [
+      "Uma técnica de desmatamento controlado",
+      "Sistema que combina cultivos, animais e árvores na mesma área",
+      "Método de irrigação por inundação",
+      "Processo de adubação química intensiva"
+    ],
+    correct: 1,
+    feedback: {
+      correct: "✅ Perfeito! O iLPF integra grãos, pastagens e florestas na mesma propriedade, diversificando renda e restaurando o ecossistema.",
+      incorrect: "❌ A iLPF combina lavouras, pecuária e florestas na mesma área, gerando benefícios econômicos e ambientais simultâneos."
+    }
+  },
+  {
+    question: "Qual tecnologia usa imagens de satélite e GPS para otimizar a aplicação de insumos?",
+    options: ["Biotecnologia molecular", "Agricultura de Precisão", "Aquaponia", "Hidroponia vertical"],
+    correct: 1,
+    feedback: {
+      correct: "✅ Certíssimo! A Agricultura de Precisão usa GPS, sensores e imagens aéreas para aplicar insumos exatamente onde e na quantidade necessária.",
+      incorrect: "❌ A Agricultura de Precisão é a tecnologia correta. Ela mapeia variações do solo e da lavoura para reduzir desperdício de insumos."
+    }
+  },
+  {
+    question: "O Brasil tem o maior programa de certificação de carbono no agronegócio chamado:",
+    options: ["REDD+", "ABC+ (Agricultura de Baixo Carbono)", "Kyoto Agro", "Green New Deal"],
+    correct: 1,
+    feedback: {
+      correct: "✅ Exato! O Programa ABC+ (Adaptação e Mitigação à Mudança do Clima na Agropecuária) é o maior do mundo em financiamento para agricultura de baixo carbono.",
+      incorrect: "❌ O programa correto é o ABC+ (Agricultura de Baixo Carbono), política pública do Brasil para reduzir emissões no campo e promover sustentabilidade."
+    }
+  }
+];
+
+/* ============================================================
+   3. ACESSIBILIDADE — FONTE
+   ============================================================ */
+function initFontControls() {
+  const root = document.documentElement;
+
+  function setFontScale(scale) {
+    State.fontScale = Math.min(1.4, Math.max(0.8, scale));
+    root.style.fontSize = `${State.fontScale}rem`;
+    localStorage.setItem('fontScale', State.fontScale);
+  }
+
+  // Restaurar do localStorage
+  const savedScale = parseFloat(localStorage.getItem('fontScale'));
+  if (savedScale) setFontScale(savedScale);
+
+  document.getElementById('font-increase').addEventListener('click', () => setFontScale(State.fontScale + 0.1));
+  document.getElementById('font-reset').addEventListener('click', () => setFontScale(1));
+  document.getElementById('font-decrease').addEventListener('click', () => setFontScale(State.fontScale - 0.1));
+}
+
+/* ============================================================
+   4. ACESSIBILIDADE — TEMAS
+   ============================================================ */
+function initThemeControls() {
+  const body = document.body;
+
+  function applyTheme(theme) {
+    body.classList.remove('dark-mode', 'high-contrast');
+    if (theme === 'dark') body.classList.add('dark-mode');
+    if (theme === 'contrast') body.classList.add('high-contrast');
+    State.theme = theme;
+    localStorage.setItem('theme', theme);
+  }
+
+  // Restaurar tema salvo
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  applyTheme(savedTheme);
+
+  document.getElementById('theme-light').addEventListener('click', () => applyTheme('light'));
+  document.getElementById('theme-dark').addEventListener('click', () => applyTheme('dark'));
+  document.getElementById('theme-contrast').addEventListener('click', () => applyTheme('contrast'));
+}
+
+/* ============================================================
+   5. ACESSIBILIDADE — SPEECH SYNTHESIS
+   ============================================================ */
+function initSpeech() {
+  if (!('speechSynthesis' in window)) {
+    document.getElementById('speech-play').disabled = true;
+    document.getElementById('speech-pause').disabled = true;
+    return;
+  }
+
+  const synth = window.speechSynthesis;
+
+  function getVisibleSectionText() {
+    const sections = document.querySelectorAll('section[id]');
+    let closestSection = null;
+    let minDistance = Infinity;
+    const viewportMid = window.innerHeight / 2;
+
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      const dist = Math.abs(rect.top + rect.height / 2 - viewportMid);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestSection = sec;
+      }
+    });
+
+    return closestSection ? closestSection.innerText.slice(0, 1500) : '';
+  }
+
+  document.getElementById('speech-play').addEventListener('click', () => {
+    synth.cancel();
+    const text = getVisibleSectionText();
+    if (!text) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 0.9;
+    State.speech = utterance;
+    synth.speak(utterance);
+  });
+
+  document.getElementById('speech-pause').addEventListener('click', () => {
+    if (synth.speaking && !synth.paused) {
+      synth.pause();
+    } else if (synth.paused) {
+      synth.resume();
+    }
+  });
+}
+
+/* ============================================================
+   6. NAVEGAÇÃO — HEADER SCROLL + MOBILE MENU
+   ============================================================ */
+function initNavigation() {
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  // Header com sombra ao rolar
+  const handleScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  };
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  // Mobile menu
+  toggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Fechar menu ao clicar em link
+  navLinks.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Fechar menu com Esc
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      navLinks.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  });
+
+  // Active nav link ao rolar
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-link');
+
+  const observerNav = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach(sec => observerNav.observe(sec));
+}
+
+/* ============================================================
+   7. ANIMAÇÕES DE REVEAL AO ROLAR
+   ============================================================ */
+function initRevealAnimations() {
+  // Marca elementos para animação
+  const targets = document.querySelectorAll(
+    '.benefit-card, .stat-card, .tec-card, .impact-card, .comp-row, .section-header, .sobre-grid, .sobre-text p, .sobre-visual'
+  );
+  targets.forEach((el, i) => {
+    el.classList.add('reveal');
+    // Delay escalonado para grids
+    const delay = (i % 4) * 0.1;
+    el.style.transitionDelay = `${delay}s`;
+  });
+
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+
+/* ============================================================
+   8. BARRAS DE BENEFÍCIOS ANIMADAS
+   ============================================================ */
+function initBenefitBars() {
+  const bars = document.querySelectorAll('.benefit-bar-fill');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target;
+        const width = bar.dataset.width;
+        setTimeout(() => { bar.style.width = `${width}%`; }, 200);
+        observer.unobserve(bar);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  bars.forEach(bar => observer.observe(bar));
+}
+
+/* ============================================================
+   9. CONTADORES ANIMADOS — CURIOSIDADES
+   ============================================================ */
+function animateCounter(el, target, duration = 2000) {
+  const start = performance.now();
+  const update = (time) => {
+    const elapsed = time - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(eased * target);
+    el.textContent = current.toLocaleString('pt-BR');
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+function initStatCounters() {
+  const statCards = document.querySelectorAll('.stat-card');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const countEl = entry.target.querySelector('.stat-count');
+        const targetVal = parseInt(entry.target.querySelector('.stat-number').dataset.target);
+        if (countEl && targetVal) animateCounter(countEl, targetVal, 1800);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  statCards.forEach(card => observer.observe(card));
+}
+
+/* ============================================================
+   10. TIMELINE — ANIMAÇÃO PROGRESSIVA
+   ============================================================ */
+function initTimeline() {
+  const items = document.querySelectorAll('.timeline-item');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 0);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  items.forEach(item => observer.observe(item));
+}
+
+/* ============================================================
+   11. CARDS DE TECNOLOGIA — TECLADO FLIP
+   ============================================================ */
+function initTechCards() {
+  const cards = document.querySelectorAll('.tec-card');
+
+  cards.forEach(card => {
+    // Suporte por teclado: Enter ou Space flipa o card
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('flipped');
+        const isFlipped = card.classList.contains('flipped');
+        card.querySelector('.tec-card-back').setAttribute('aria-hidden', !isFlipped);
+        card.querySelector('.tec-card-front').setAttribute('aria-hidden', isFlipped);
+      }
+    });
+
+    // Reset ao perder foco
+    card.addEventListener('blur', () => {
+      card.classList.remove('flipped');
+    });
+  });
+}
+
+/* ============================================================
+   12. QUIZ INTERATIVO
+   ============================================================ */
+function initQuiz() {
+  const quizContent  = document.getElementById('quiz-content');
+  const quizResult   = document.getElementById('quiz-result');
+  const quizRestart  = document.getElementById('quiz-restart');
+  const progressFill = document.getElementById('quiz-progress-fill');
+  const progressText = document.getElementById('quiz-progress-text');
+
+  function updateProgress() {
+    const pct = (State.quizIndex / quizData.length) * 100;
+    progressFill.style.width = `${pct}%`;
+    progressFill.parentElement.setAttribute('aria-valuenow', pct);
+    progressText.textContent = `Pergunta ${Math.min(State.quizIndex + 1, quizData.length)} de ${quizData.length}`;
+  }
+
+  function renderQuestion() {
+    const q = quizData[State.quizIndex];
+    State.quizAnswered = false;
+
+    quizContent.innerHTML = `
+      <div class="quiz-question-card" role="group" aria-labelledby="quiz-q-${State.quizIndex}">
+        <span class="quiz-q-num">Pergunta ${State.quizIndex + 1} de ${quizData.length}</span>
+        <p class="quiz-question" id="quiz-q-${State.quizIndex}">${q.question}</p>
+        <div class="quiz-options" role="group" aria-label="Opções de resposta">
+          ${q.options.map((opt, i) => `
+            <button class="quiz-option" data-index="${i}" aria-label="Opção ${i+1}: ${opt}">
+              <span class="quiz-opt-letter">${String.fromCharCode(65 + i)}.</span> ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div id="quiz-feedback" class="quiz-feedback" aria-live="polite" style="display:none"></div>
+        <div style="text-align:center; margin-top: var(--space-6); display:none" id="quiz-next-wrap">
+          <button class="btn btn--primary quiz-next-btn" id="quiz-next">
+            ${State.quizIndex < quizData.length - 1 ? 'Próxima Pergunta →' : 'Ver Resultado 🏆'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    updateProgress();
+
+    // Event delegation — resposta
+    quizContent.querySelectorAll('.quiz-option').forEach(btn => {
+      btn.addEventListener('click', () => handleAnswer(parseInt(btn.dataset.index)));
+    });
+
+    const nextBtn = quizContent.querySelector('#quiz-next');
+    if (nextBtn) nextBtn.addEventListener('click', nextQuestion);
+  }
+
+  function handleAnswer(selectedIndex) {
+    if (State.quizAnswered) return;
+    State.quizAnswered = true;
+
+    const q = quizData[State.quizIndex];
+    const isCorrect = selectedIndex === q.correct;
+    if (isCorrect) State.quizScore++;
+
+    const options = quizContent.querySelectorAll('.quiz-option');
+    options.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === q.correct) btn.classList.add('correct');
+      else if (i === selectedIndex && !isCorrect) btn.classList.add('incorrect');
+    });
+
+    const feedback = quizContent.querySelector('#quiz-feedback');
+    feedback.style.display = 'block';
+    feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+    feedback.textContent = isCorrect ? q.feedback.correct : q.feedback.incorrect;
+
+    quizContent.querySelector('#quiz-next-wrap').style.display = 'block';
+  }
+
+  function nextQuestion() {
+    State.quizIndex++;
+    if (State.quizIndex < quizData.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    quizContent.innerHTML = '';
+    quizResult.hidden = false;
+    quizRestart.hidden = false;
+
+    const pct = Math.round((State.quizScore / quizData.length) * 100);
+    progressFill.style.width = '100%';
+    progressText.textContent = 'Quiz concluído!';
+
+    let emoji, msg, msgClass;
+    if (pct >= 83) {
+      emoji = '🏆'; msg = 'Especialista em Sustentabilidade! Você tem um conhecimento excelente sobre o agronegócio sustentável.'; msgClass = '';
+    } else if (pct >= 66) {
+      emoji = '🌱'; msg = 'Muito bem! Você já conhece bastante sobre práticas sustentáveis. Continue aprendendo!'; msgClass = '';
+    } else if (pct >= 50) {
+      emoji = '📚'; msg = 'Bom começo! Revise o conteúdo do site e tente novamente para melhorar sua pontuação.'; msgClass = '';
+    } else {
+      emoji = '🌾'; msg = 'Não desanime! Leia o conteúdo desta página e refaça o quiz. Cada tentativa é uma oportunidade de aprender.'; msgClass = '';
+    }
+
+    quizResult.innerHTML = `
+      <span class="quiz-result-emoji" aria-hidden="true">${emoji}</span>
+      <h3>Quiz Concluído!</h3>
+      <p class="score" aria-label="${State.quizScore} de ${quizData.length} acertos">
+        ${State.quizScore}/${quizData.length}
+        <span style="font-size:var(--text-xl); color: var(--verde-claro)"> (${pct}%)</span>
+      </p>
+      <p>${msg}</p>
+    `;
+  }
+
+  quizRestart.addEventListener('click', () => {
+    State.quizIndex = 0;
+    State.quizScore = 0;
+    quizResult.hidden = true;
+    quizRestart.hidden = true;
+    renderQuestion();
+  });
+
+  // Inicia o quiz
+  renderQuestion();
+}
+
+/* ============================================================
+   13. CONTADOR DE IMPACTO EM TEMPO REAL
+   ============================================================ */
+function initImpactCounters() {
+  const counterWater = document.getElementById('counter-water');
+  const counterCo2   = document.getElementById('counter-co2');
+  const counterSoil  = document.getElementById('counter-soil');
+
+  if (!counterWater || !counterCo2 || !counterSoil) return;
+
+  // Rates por segundo (simulados com base em dados reais globais)
+  const rates = {
+    water: 1247,   // litros/seg economizados globalmente
+    co2:   38,     // kg CO2/seg evitados
+    soil:  0.003,  // hectares/seg restaurados (≈ 10k ha/dia)
+  };
+
+  let elapsed = 0;
+  const values = { water: 0, co2: 0, soil: 0 };
+
+  function formatLargeNumber(n) {
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(2) + ' mi';
+    if (n >= 1_000) return (n / 1_000).toFixed(1) + ' mil';
+    return Math.floor(n).toString();
+  }
+
+  function formatSoil(n) {
+    return n.toFixed(2);
+  }
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !State.countersStarted) {
+        State.countersStarted = true;
+        State.impactStartTime = performance.now();
+
+        State.impactInterval = setInterval(() => {
+          elapsed += 0.1;
+          values.water = rates.water * elapsed;
+          values.co2   = rates.co2 * elapsed;
+          values.soil  = rates.soil * elapsed;
+
+          counterWater.textContent = formatLargeNumber(values.water);
+          counterCo2.textContent   = formatLargeNumber(values.co2);
+          counterSoil.textContent  = formatSoil(values.soil);
+        }, 100);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const impactSection = document.getElementById('impacto');
+  if (impactSection) sectionObserver.observe(impactSection);
+}
+
+/* ============================================================
+   14. SMOOTH SCROLL PARA LINKS INTERNOS
+   ============================================================ */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        const offset = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--nav-height')) + parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--a11y-bar-height')) + 16;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
+    });
+  });
+}
+
+/* ============================================================
+   15. NAVEGAÇÃO POR TECLADO — CARDS DE TECH
+   ============================================================ */
+function initKeyboardNav() {
+  // Cards de benefícios e tecnologia
+  document.querySelectorAll('.benefit-card, .stat-card').forEach(card => {
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+}
+
+/* ============================================================
+   16. OBSERVER PARA CARDS DE TECNOLOGIA (CSS flip)
+   ============================================================ */
+function initTechFlipObserver() {
+  // Acessibilidade: ao tabular para o card, mostra dica no back
+  document.querySelectorAll('.tec-card').forEach(card => {
+    card.addEventListener('focus', () => {
+      card.classList.add('flipped');
+      card.querySelector('.tec-card-back').removeAttribute('aria-hidden');
+      card.querySelector('.tec-card-front').setAttribute('aria-hidden', 'true');
+    });
+    card.addEventListener('blur', () => {
+      card.classList.remove('flipped');
+      card.querySelector('.tec-card-back').setAttribute('aria-hidden', 'true');
+      card.querySelector('.tec-card-front').removeAttribute('aria-hidden');
+    });
+  });
+}
+
+/* ============================================================
+   17. INIT — TUDO JUNTO
+   ============================================================ */
+function init() {
+  initFontControls();
+  initThemeControls();
+  initSpeech();
+  initNavigation();
+  initRevealAnimations();
+  initBenefitBars();
+  initStatCounters();
+  initTimeline();
+  initTechCards();
+  initTechFlipObserver();
+  initQuiz();
+  initImpactCounters();
+  initSmoothScroll();
+  initKeyboardNav();
+
+  console.log('🌱 AgroForte — Iniciado com sucesso!');
+}
+
+// Aguarda o DOM estar pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

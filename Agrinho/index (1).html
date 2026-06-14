@@ -1,0 +1,537 @@
+<head>
+    <link rel="stylesheet" href="css">
+</head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Agro Forte, Futuro Sustentável — Equilíbrio entre produção agrícola e preservação ambiental. Conheça tecnologias, práticas e dados que transformam o agronegócio." />
+  <meta property="og:title" content="Agro Forte, Futuro Sustentável" />
+  <meta property="og:description" content="Equilíbrio entre produção e meio ambiente no agronegócio brasileiro." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <title>Agro Forte, Futuro Sustentável</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css" />
+</head>
+<body>
+
+  <!-- ========== BARRA DE ACESSIBILIDADE ========== -->
+  <div class="accessibility-bar" role="toolbar" aria-label="Ferramentas de acessibilidade">
+    <span class="a11y-label">Acessibilidade:</span>
+    <div class="a11y-group" role="group" aria-label="Tamanho da fonte">
+      <button id="font-increase" class="a11y-btn" aria-label="Aumentar fonte" title="Aumentar fonte">A+</button>
+      <button id="font-reset" class="a11y-btn" aria-label="Restaurar fonte padrão" title="Restaurar fonte">A</button>
+      <button id="font-decrease" class="a11y-btn" aria-label="Diminuir fonte" title="Diminuir fonte">A−</button>
+    </div>
+    <div class="a11y-group" role="group" aria-label="Leitura de tela">
+      <button id="speech-play" class="a11y-btn" aria-label="Iniciar leitura da seção visível" title="Iniciar leitura">▶</button>
+      <button id="speech-pause" class="a11y-btn" aria-label="Pausar leitura" title="Pausar leitura">⏸</button>
+    </div>
+    <div class="a11y-group" role="group" aria-label="Tema visual">
+      <button id="theme-light" class="a11y-btn" aria-label="Modo claro" title="Modo claro">☀</button>
+      <button id="theme-dark" class="a11y-btn" aria-label="Modo escuro" title="Modo escuro">🌙</button>
+      <button id="theme-contrast" class="a11y-btn" aria-label="Alto contraste" title="Alto contraste">◐</button>
+    </div>
+  </div>
+
+  <!-- ========== HEADER / NAV ========== -->
+  <header class="site-header" role="banner">
+    <nav class="main-nav" role="navigation" aria-label="Navegação principal">
+      <a href="#hero" class="nav-logo" aria-label="Início — Agro Forte">
+        <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <circle cx="16" cy="16" r="14" fill="#2E7D32" opacity="0.15"/>
+          <path d="M16 4 C10 10 8 16 16 28 C24 16 22 10 16 4Z" fill="#2E7D32"/>
+          <path d="M8 18 C12 14 16 16 20 12" stroke="#66BB6A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span>AgroForte</span>
+      </a>
+      <button class="nav-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="nav-links">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#sobre" class="nav-link">O Conceito</a></li>
+        <li><a href="#beneficios" class="nav-link">Benefícios</a></li>
+        <li><a href="#tecnologias" class="nav-link">Tecnologias</a></li>
+        <li><a href="#curiosidades" class="nav-link">Dados</a></li>
+        <li><a href="#timeline" class="nav-link">História</a></li>
+        <li><a href="#comparacao" class="nav-link">Comparação</a></li>
+        <li><a href="#quiz" class="nav-link nav-link--cta">Quiz</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <!-- ========== 1. HERO ========== -->
+    <section id="hero" class="section hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-mesh"></div>
+        <div class="hero-orb hero-orb--1"></div>
+        <div class="hero-orb hero-orb--2"></div>
+        <div class="hero-orb hero-orb--3"></div>
+        <div class="hero-leaves" aria-hidden="true">
+          <span class="leaf leaf--1">🌿</span>
+          <span class="leaf leaf--2">🍃</span>
+          <span class="leaf leaf--3">🌾</span>
+          <span class="leaf leaf--4">🌱</span>
+          <span class="leaf leaf--5">🍀</span>
+        </div>
+      </div>
+      <div class="hero-content container">
+        <p class="hero-eyebrow animate-hero" aria-hidden="true">🌱 Projeto Sustentabilidade</p>
+        <h1 id="hero-title" class="hero-title animate-hero">
+          Agro Forte,<br />
+          <em>Futuro Sustentável</em>
+        </h1>
+        <p class="hero-subtitle animate-hero">Equilíbrio entre produção e meio ambiente</p>
+        <blockquote class="hero-quote animate-hero">
+          <p>"A terra não é uma herança que recebemos de nossos pais — é um empréstimo que fazemos de nossos filhos."</p>
+          <cite>— Provérbio Indígena</cite>
+        </blockquote>
+        <a href="#sobre" class="btn btn--primary animate-hero" aria-label="Explorar o conteúdo do site">
+          Explorar
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M8 3L8 13M4 9L8 13L12 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <span class="scroll-dot"></span>
+      </div>
+    </section>
+
+    <!-- ========== 2. O QUE É AGRO SUSTENTÁVEL ========== -->
+    <section id="sobre" class="section sobre" aria-labelledby="sobre-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">O Conceito</span>
+          <h2 id="sobre-title" class="section-title">O que é Agronegócio Sustentável?</h2>
+        </div>
+        <div class="sobre-grid">
+          <div class="sobre-text">
+            <p>O agronegócio sustentável é a prática de produzir alimentos, fibras e energia de forma a <strong>satisfazer as necessidades do presente</strong> sem comprometer a capacidade das gerações futuras de atenderem às suas próprias necessidades. Trata-se de um modelo que integra eficiência produtiva, <mark>responsabilidade ambiental</mark> e justiça social.</p>
+            <p>Diferente do modelo convencional, a agricultura sustentável reconhece que o solo, a água e a biodiversidade são <strong>ativos finitos e preciosos</strong>. Cada decisão no campo — do plantio à colheita — é tomada levando em conta o impacto de longo prazo sobre os ecossistemas, o clima e as comunidades rurais.</p>
+            <p>O Brasil, com sua <mark>vasta extensão territorial</mark> e posição de liderança global na produção de alimentos, tem papel crucial nessa transformação. Unir a força produtiva do agronegócio brasileiro com práticas que regeneram o meio ambiente não é apenas possível — é o caminho inevitável para um futuro próspero e seguro.</p>
+          </div>
+          <div class="sobre-visual" aria-hidden="true">
+            <div class="visual-ring">
+              <div class="ring ring--outer"></div>
+              <div class="ring ring--middle"></div>
+              <div class="ring ring--inner">
+                <span class="ring-emoji">🌎</span>
+              </div>
+              <div class="ring-label ring-label--1">Produção</div>
+              <div class="ring-label ring-label--2">Ambiente</div>
+              <div class="ring-label ring-label--3">Sociedade</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 3. BENEFÍCIOS ========== -->
+    <section id="beneficios" class="section beneficios" aria-labelledby="beneficios-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Por que adotar</span>
+          <h2 id="beneficios-title" class="section-title">Benefícios da Agricultura Sustentável</h2>
+        </div>
+        <div class="beneficios-grid" role="list">
+
+          <article class="benefit-card" role="listitem" tabindex="0">
+            <div class="benefit-icon" aria-hidden="true">💧</div>
+            <h3 class="benefit-title">Uso Consciente da Água</h3>
+            <p class="benefit-desc">Sistemas de irrigação por gotejamento e sensoriamento remoto reduzem o consumo hídrico em até 50%, preservando nascentes e lençóis freáticos.</p>
+            <div class="benefit-bar" aria-hidden="true"><div class="benefit-bar-fill" data-width="85"></div></div>
+            <span class="benefit-stat">Economia de até 85% vs. irrigação convencional</span>
+          </article>
+
+          <article class="benefit-card" role="listitem" tabindex="0">
+            <div class="benefit-icon" aria-hidden="true">🌱</div>
+            <h3 class="benefit-title">Conservação do Solo</h3>
+            <p class="benefit-desc">Práticas como plantio direto, rotação de culturas e cobertura vegetal regeneram matéria orgânica, prevenindo erosão e desertificação.</p>
+            <div class="benefit-bar" aria-hidden="true"><div class="benefit-bar-fill" data-width="72"></div></div>
+            <span class="benefit-stat">72% menos erosão com plantio direto</span>
+          </article>
+
+          <article class="benefit-card" role="listitem" tabindex="0">
+            <div class="benefit-icon" aria-hidden="true">🌍</div>
+            <h3 class="benefit-title">Redução de Impactos Ambientais</h3>
+            <p class="benefit-desc">Menor uso de agroquímicos, captação de carbono pelo solo e integração lavoura-pecuária-floresta reduzem drasticamente as emissões de CO₂.</p>
+            <div class="benefit-bar" aria-hidden="true"><div class="benefit-bar-fill" data-width="60"></div></div>
+            <span class="benefit-stat">Redução de 60% nas emissões de GEE</span>
+          </article>
+
+          <article class="benefit-card" role="listitem" tabindex="0">
+            <div class="benefit-icon" aria-hidden="true">📈</div>
+            <h3 class="benefit-title">Produtividade Sustentável</h3>
+            <p class="benefit-desc">Agricultures que adotam práticas sustentáveis reportam aumento médio de 30% na produtividade em 5 anos, com maior resiliência a eventos climáticos.</p>
+            <div class="benefit-bar" aria-hidden="true"><div class="benefit-bar-fill" data-width="92"></div></div>
+            <span class="benefit-stat">92% de satisfação entre produtores</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4. TECNOLOGIAS ========== -->
+    <section id="tecnologias" class="section tecnologias" aria-labelledby="tec-title">
+      <div class="container">
+        <div class="section-header section-header--light">
+          <span class="section-tag section-tag--dark">Inovação</span>
+          <h2 id="tec-title" class="section-title section-title--light">Tecnologias Sustentáveis</h2>
+          <p class="section-subtitle">A convergência entre tecnologia de ponta e práticas sustentáveis está redefinindo o campo.</p>
+        </div>
+        <div class="tec-grid" role="list">
+
+          <article class="tec-card" role="listitem" tabindex="0">
+            <div class="tec-card-front">
+              <div class="tec-icon" aria-hidden="true">🎯</div>
+              <h3>Agricultura de Precisão</h3>
+              <p class="tec-hover-hint">Passe o mouse para saber mais</p>
+            </div>
+            <div class="tec-card-back" aria-hidden="true">
+              <h3>Agricultura de Precisão</h3>
+              <p>Utiliza GPS, sensores e mapas georreferenciados para aplicar insumos apenas onde e quando necessário, reduzindo desperdício em até 40%.</p>
+              <span class="tec-tag">Eficiência</span>
+            </div>
+          </article>
+
+          <article class="tec-card" role="listitem" tabindex="0">
+            <div class="tec-card-front">
+              <div class="tec-icon" aria-hidden="true">🛸</div>
+              <h3>Sensores e Drones</h3>
+              <p class="tec-hover-hint">Passe o mouse para saber mais</p>
+            </div>
+            <div class="tec-card-back" aria-hidden="true">
+              <h3>Sensores e Drones</h3>
+              <p>Monitoramento aéreo e sensores IoT no solo permitem diagnósticos em tempo real sobre saúde das plantas, umidade e pragas com alta precisão.</p>
+              <span class="tec-tag">Monitoramento</span>
+            </div>
+          </article>
+
+          <article class="tec-card" role="listitem" tabindex="0">
+            <div class="tec-card-front">
+              <div class="tec-icon" aria-hidden="true">🤖</div>
+              <h3>Inteligência Artificial</h3>
+              <p class="tec-hover-hint">Passe o mouse para saber mais</p>
+            </div>
+            <div class="tec-card-back" aria-hidden="true">
+              <h3>Inteligência Artificial</h3>
+              <p>Algoritmos de machine learning preveem colheitas, detectam doenças precocemente e otimizam toda a cadeia logística do agronegócio.</p>
+              <span class="tec-tag">Predição</span>
+            </div>
+          </article>
+
+          <article class="tec-card" role="listitem" tabindex="0">
+            <div class="tec-card-front">
+              <div class="tec-icon" aria-hidden="true">☀️</div>
+              <h3>Energia Renovável</h3>
+              <p class="tec-hover-hint">Passe o mouse para saber mais</p>
+            </div>
+            <div class="tec-card-back" aria-hidden="true">
+              <h3>Energia Renovável</h3>
+              <p>Painéis solares, biogás e mini-hidrelétricas tornam propriedades rurais autossuficientes em energia, reduzindo custos e emissões de carbono.</p>
+              <span class="tec-tag">Energia Limpa</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 5. CURIOSIDADES / DADOS ========== -->
+    <section id="curiosidades" class="section curiosidades" aria-labelledby="curiosidades-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Números que impactam</span>
+          <h2 id="curiosidades-title" class="section-title">Dados da Sustentabilidade</h2>
+        </div>
+        <div class="stats-grid" role="list">
+
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" data-target="70" data-suffix="%" aria-label="70 por cento">
+              <span class="stat-count">0</span><span class="stat-unit">%</span>
+            </div>
+            <p class="stat-label">da água doce mundial é usada na agricultura</p>
+            <p class="stat-context">Técnicas sustentáveis podem reduzir esse consumo pela metade</p>
+          </div>
+
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" data-target="500" data-suffix="bi" aria-label="500 bilhões de dólares">
+              <span class="stat-count">0</span><span class="stat-unit">bi</span>
+            </div>
+            <p class="stat-label">de dólares perdidos anualmente por degradação do solo</p>
+            <p class="stat-context">Segundo relatório da FAO/ONU (2022)</p>
+          </div>
+
+          <div class="stat-card stat-card--highlight" role="listitem">
+            <div class="stat-number" data-target="33" data-suffix="%" aria-label="33 por cento">
+              <span class="stat-count">0</span><span class="stat-unit">%</span>
+            </div>
+            <p class="stat-label">das emissões globais de GEE vêm do sistema alimentar</p>
+            <p class="stat-context">Incluindo produção, transporte e desperdício</p>
+          </div>
+
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" data-target="10" data-suffix="bi" aria-label="10 bilhões de pessoas">
+              <span class="stat-count">0</span><span class="stat-unit">bi</span>
+            </div>
+            <p class="stat-label">de pessoas no planeta até 2050</p>
+            <p class="stat-context">Exigindo 70% mais alimentos com menos recursos naturais</p>
+          </div>
+
+          <div class="stat-card" role="listitem">
+            <div class="stat-number" data-target="40" data-suffix="%" aria-label="40 por cento">
+              <span class="stat-count">0</span><span class="stat-unit">%</span>
+            </div>
+            <p class="stat-label">das terras agrícolas do mundo estão degradadas</p>
+            <p class="stat-context">Restauração pode sequestrar até 1,5 Gt de CO₂/ano</p>
+          </div>
+
+          <div class="stat-card stat-card--highlight" role="listitem">
+            <div class="stat-number" data-target="1" data-suffix="ha" aria-label="1 hectare">
+              <span class="stat-count">0</span><span class="stat-unit">ha</span>
+            </div>
+            <p class="stat-label">de floresta tropical abriga mais de 400 espécies</p>
+            <p class="stat-context">A Amazônia contém 10% de toda a biodiversidade terrestre</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 6. LINHA DO TEMPO ========== -->
+    <section id="timeline" class="section timeline-section" aria-labelledby="timeline-title">
+      <div class="container">
+        <div class="section-header section-header--light">
+          <span class="section-tag section-tag--dark">Evolução</span>
+          <h2 id="timeline-title" class="section-title section-title--light">A Jornada da Agricultura Sustentável</h2>
+        </div>
+        <div class="timeline" role="list" aria-label="Linha do tempo da agricultura sustentável">
+
+          <div class="timeline-item" role="listitem" data-year="1970">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-year">1970</span>
+              <h3 class="timeline-title-item">Despertar Ambiental</h3>
+              <p>Publicação de "Os Limites do Crescimento" pelo Clube de Roma alerta o mundo sobre os riscos do consumo ilimitado de recursos naturais. Surge o movimento ambientalista moderno.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem" data-year="1987">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-year">1987</span>
+              <h3 class="timeline-title-item">Relatório Brundtland</h3>
+              <p>A ONU define oficialmente "desenvolvimento sustentável" como aquele que satisfaz necessidades presentes sem comprometer o futuro. Marco histórico para políticas globais.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem" data-year="1992">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-year">1992</span>
+              <h3 class="timeline-title-item">Rio 92 — Agenda 21</h3>
+              <p>O Brasil sedia a Cúpula da Terra no Rio de Janeiro. A Agenda 21 estabelece metas concretas para o desenvolvimento sustentável, incluindo a agricultura.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem" data-year="2000s">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-year">2000s</span>
+              <h3 class="timeline-title-item">Revolução da Precisão</h3>
+              <p>GPS, sensores e software de gestão agrícola chegam ao campo. A agricultura de precisão começa a transformar o manejo de lavouras, reduzindo insumos e aumentando eficiência.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem" data-year="2015">
+            <div class="timeline-marker" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-year">2015</span>
+              <h3 class="timeline-title-item">ODS e Acordo de Paris</h3>
+              <p>Os 17 Objetivos de Desenvolvimento Sustentável da ONU e o Acordo de Paris colocam o sistema alimentar no centro do combate às mudanças climáticas.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem" data-year="Futuro">
+            <div class="timeline-marker timeline-marker--future" aria-hidden="true"></div>
+            <div class="timeline-content timeline-content--future">
+              <span class="timeline-year timeline-year--future">Futuro</span>
+              <h3 class="timeline-title-item">Agricultura Regenerativa</h3>
+              <p>IA, bioeconomia e práticas regenerativas se integram para criar um sistema alimentar que não apenas preserva, mas restaura os ecossistemas — e alimenta o mundo.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 7. COMPARAÇÃO ========== -->
+    <section id="comparacao" class="section comparacao" aria-labelledby="comp-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Análise comparativa</span>
+          <h2 id="comp-title" class="section-title">Sustentável vs. Convencional</h2>
+        </div>
+        <div class="comp-wrapper">
+          <div class="comp-header">
+            <div class="comp-col-label comp-col-label--sus" aria-label="Práticas Sustentáveis">
+              <span aria-hidden="true">🌿</span> Sustentável
+            </div>
+            <div class="comp-col-center">Prática</div>
+            <div class="comp-col-label comp-col-label--conv" aria-label="Práticas Convencionais">
+              Convencional <span aria-hidden="true">⚠️</span>
+            </div>
+          </div>
+          <div class="comp-table" role="table" aria-label="Comparação entre agricultura sustentável e convencional">
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Irrigação por gotejamento e sensores de umidade</div>
+              <div class="comp-cell comp-cell--center" role="cell">💧 Uso da Água</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Irrigação por aspersão sem controle de quantidade</div>
+            </div>
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Plantio direto e rotação de culturas</div>
+              <div class="comp-cell comp-cell--center" role="cell">🌾 Solo</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Arado intensivo e monocultura contínua</div>
+            </div>
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Controle biológico e defensivos naturais</div>
+              <div class="comp-cell comp-cell--center" role="cell">🐛 Pragas</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Uso indiscriminado de agrotóxicos</div>
+            </div>
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Solar, eólica e biogás</div>
+              <div class="comp-cell comp-cell--center" role="cell">⚡ Energia</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Combustíveis fósseis e energia da rede elétrica</div>
+            </div>
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Compostagem e reaproveitamento de resíduos</div>
+              <div class="comp-cell comp-cell--center" role="cell">♻️ Resíduos</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Queima de palha e descarte de embalagens</div>
+            </div>
+            <div class="comp-row" role="row">
+              <div class="comp-cell comp-cell--sus" role="cell">Reservas legais e APPs preservadas</div>
+              <div class="comp-cell comp-cell--center" role="cell">🌳 Floresta</div>
+              <div class="comp-cell comp-cell--conv" role="cell">Desmatamento para expansão de área</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 8. QUIZ ========== -->
+    <section id="quiz" class="section quiz-section" aria-labelledby="quiz-title">
+      <div class="container">
+        <div class="section-header section-header--light">
+          <span class="section-tag section-tag--dark">Teste seu conhecimento</span>
+          <h2 id="quiz-title" class="section-title section-title--light">Quiz: Agronegócio Sustentável</h2>
+        </div>
+        <div class="quiz-container" role="form" aria-label="Quiz interativo sobre sustentabilidade">
+          <div class="quiz-progress-wrap">
+            <div class="quiz-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+            </div>
+            <span class="quiz-progress-text" id="quiz-progress-text" aria-live="polite">Pergunta 1 de 6</span>
+          </div>
+          <div id="quiz-content" aria-live="polite" aria-atomic="true">
+            <!-- Preenchido pelo JavaScript -->
+          </div>
+          <div id="quiz-result" class="quiz-result" aria-live="assertive" aria-atomic="true" hidden>
+            <!-- Resultado preenchido pelo JS -->
+          </div>
+          <button id="quiz-restart" class="btn btn--secondary" hidden aria-label="Reiniciar o quiz">
+            Reiniciar Quiz 🔄
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 9. CONTADOR DE IMPACTO ========== -->
+    <section id="impacto" class="section impacto" aria-labelledby="impacto-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Impacto coletivo</span>
+          <h2 id="impacto-title" class="section-title">Contadores de Impacto Global</h2>
+          <p class="section-desc">A cada segundo, práticas sustentáveis ao redor do mundo geram resultados positivos. Acompanhe em tempo real:</p>
+        </div>
+        <div class="impact-grid" role="list">
+          <div class="impact-card" role="listitem">
+            <div class="impact-icon" aria-hidden="true">💧</div>
+            <div class="impact-value" id="counter-water" aria-live="polite" aria-label="Litros de água economizados">0</div>
+            <p class="impact-label">Litros de água economizados</p>
+            <p class="impact-unit">desde que você entrou nesta página</p>
+          </div>
+          <div class="impact-card impact-card--feature" role="listitem">
+            <div class="impact-icon" aria-hidden="true">🌿</div>
+            <div class="impact-value" id="counter-co2" aria-live="polite" aria-label="Kg de CO₂ evitados">0</div>
+            <p class="impact-label">Kg de CO₂ evitados</p>
+            <p class="impact-unit">pela agricultura de baixo carbono</p>
+          </div>
+          <div class="impact-card" role="listitem">
+            <div class="impact-icon" aria-hidden="true">🌱</div>
+            <div class="impact-value" id="counter-soil" aria-live="polite" aria-label="Hectares de solo restaurado">0</div>
+            <p class="impact-label">Hectares de solo restaurado</p>
+            <p class="impact-unit">com práticas regenerativas</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a href="#hero" class="footer-logo" aria-label="Voltar ao topo — AgroForte">
+            <svg width="40" height="40" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <circle cx="16" cy="16" r="14" fill="#66BB6A" opacity="0.2"/>
+              <path d="M16 4 C10 10 8 16 16 28 C24 16 22 10 16 4Z" fill="#66BB6A"/>
+            </svg>
+            <span>AgroForte</span>
+          </a>
+          <p class="footer-tagline">Equilíbrio entre produção e meio ambiente.</p>
+          <p class="footer-conclusion">O futuro do agronegócio não escolhe entre produzir e preservar — ele faz as duas coisas com inteligência, tecnologia e responsabilidade. <strong>O campo sustentável é o campo do futuro.</strong></p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Navegação rápida no rodapé">
+          <h3 class="footer-nav-title">Navegação</h3>
+          <ul role="list">
+            <li><a href="#sobre" class="footer-link">O Conceito</a></li>
+            <li><a href="#beneficios" class="footer-link">Benefícios</a></li>
+            <li><a href="#tecnologias" class="footer-link">Tecnologias</a></li>
+            <li><a href="#curiosidades" class="footer-link">Dados</a></li>
+            <li><a href="#timeline" class="footer-link">Linha do Tempo</a></li>
+            <li><a href="#comparacao" class="footer-link">Comparação</a></li>
+            <li><a href="#quiz" class="footer-link">Quiz</a></li>
+            <li><a href="#impacto" class="footer-link">Impacto</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer-credits">
+          <h3 class="footer-nav-title">Sobre o Projeto</h3>
+          <p>Projeto educacional desenvolvido para conscientização sobre sustentabilidade no agronegócio brasileiro.</p>
+          <p class="footer-sources">Fontes: FAO, EMBRAPA, Ministério do Meio Ambiente, IPCC, World Resources Institute.</p>
+          <p class="footer-year">© 2025 — AgroForte. Conteúdo educacional.</p>
+        </div>
+
+      </div>
+      <div class="footer-bottom">
+        <p>Feito com 💚 para o futuro do planeta — <a href="#hero" class="footer-link-top">Voltar ao topo ↑</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="java script"></script>
+</body>
+</html>
